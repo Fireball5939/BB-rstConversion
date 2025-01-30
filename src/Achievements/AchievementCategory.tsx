@@ -8,7 +8,7 @@ interface IProps {
   title: string;
   achievements: { achievement: Achievement }[];
   allAchievements?: { achievement: Achievement }[];
-  pad?: boolean;
+  usePadding?: boolean;
 }
 
 function steamCount(achievements: { achievement: Achievement }[]): number {
@@ -19,12 +19,29 @@ export function AchievementCategory({
   title,
   achievements,
   allAchievements,
-  pad,
+  usePadding,
   children,
 }: React.PropsWithChildren<IProps>): JSX.Element {
-  // The 264px minWidth feels scuffed, but fixes an unknown edge case (Brought up in PR #1508).
+  /**
+   * For each achievement, we need to display the icon and the detail on the same "row" (icon on the left and detail on
+   * the right). When the viewport is to small, the detail part of some achievements is "moved" to a separate "row". It
+   * looks like this:
+   *
+   * <achievement 1>
+   *   <icon><detail>
+   * </achievement 1>
+   * <achievement 2>
+   *   <icon>
+   *   <detail>
+   * </achievement 2>
+   * <achievement 3>
+   *   <icon><detail>
+   * </achievement 3>
+   *
+   * Using "minWidth" fixes this issue by setting a min value for the width of each row
+   */
   return (
-    <Accordion defaultExpanded={!!allAchievements} disableGutters square sx={{ minWidth: "264px" }}>
+    <Accordion defaultExpanded={!!allAchievements} disableGutters square sx={{ minWidth: "645px" }}>
       <AccordionSummary>
         {allAchievements ? (
           <Typography variant="h5" sx={{ my: 1 }}>
@@ -37,7 +54,7 @@ export function AchievementCategory({
           </Typography>
         )}
       </AccordionSummary>
-      <AccordionDetails sx={pad ? { pt: 2 } : undefined}>{children}</AccordionDetails>
+      <AccordionDetails sx={usePadding ? { pt: 2 } : undefined}>{children}</AccordionDetails>
     </Accordion>
   );
 }
