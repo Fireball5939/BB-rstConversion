@@ -53,7 +53,7 @@ export function AchievementList({ achievements, playerAchievements }: IProps): J
         }}
       >
         {unlocked.length > 0 && (
-          <AchievementCategory title="Acquired" achievements={unlocked} allAchievements={data} pad={true}>
+          <AchievementCategory title="Acquired" achievements={unlocked} allAchievements={data} usePadding={true}>
             {unlocked.map((item) => (
               <AchievementEntry
                 key={`unlocked_${item.achievement.ID}`}
@@ -66,7 +66,7 @@ export function AchievementList({ achievements, playerAchievements }: IProps): J
           </AchievementCategory>
         )}
         {locked.length > 0 && (
-          <AchievementCategory title="Locked" achievements={locked} pad={true}>
+          <AchievementCategory title="Locked" achievements={locked} usePadding={true}>
             {locked.map((item) => (
               <AchievementEntry
                 key={`locked_${item.achievement.ID}`}
